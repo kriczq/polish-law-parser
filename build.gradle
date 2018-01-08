@@ -1,11 +1,31 @@
-version '1.0-SNAPSHOT'
+version '1.0'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.9
 
 repositories {
     mavenCentral()
+}
+
+/*task artifact(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Legal docs parser',
+                'Implementation-Version': version,
+                'Main-Class': 'project.Application'
+    }
+    archiveName = "lpars.jar"
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}*/
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'project.Application'
+        )
+    }
 }
 
 dependencies {

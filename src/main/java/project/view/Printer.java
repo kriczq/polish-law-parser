@@ -28,11 +28,10 @@ public class Printer {
         Content c = root;
 
         for (Map.Entry<ContentType, String> entry : element.entrySet()) {
-            System.out.println("szukam " + entry.getValue() + " " + entry.getKey());
+            //System.out.println("szukam " + entry.getValue() + " " + entry.getKey());
             c = c.find(entry.getValue(), entry.getKey());
         }
 
-        c.showChildren();
         System.out.println(c);
     }
 
@@ -52,7 +51,6 @@ public class Printer {
         end.orElseThrow(() -> new NullPointerException("art. " + last + " not found"));
 
         if (start.getAsInt() > end.getAsInt()) throw new NullPointerException("empty przedzial");
-
 
         arts.subList(start.getAsInt(), end.getAsInt()+1).forEach(System.out::println);
     }

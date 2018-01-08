@@ -29,10 +29,10 @@ import java.util.regex.Pattern;
  */
 
 public class InputParser {
-    public enum Mode {Table, Range, Element}
+    public enum Mode {Table, Range, Element, Help}
 
-    private final String input;
-    private final String filename;
+    private String input;
+    private String filename;
     private Mode mode;
     private ArticleRange range;
 
@@ -56,7 +56,14 @@ public class InputParser {
     }
 
     public InputParser(String[] args) {
+        if (args.length == 0) {
+            mode = Mode.Help;
+            return;
+        }
+
         filename = args[0];
+
+        // todo if just file name
         input = String.join(" ", Arrays.copyOfRange(args, args[1].equals("-t") ? 2 : 1, args.length));
 
         Matcher m;

@@ -6,13 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileProcessor {
-    private final Path path;
     private String content;
 
-    public FileProcessor(String fileName) throws IOException {
-        this.path = Paths.get(FileProcessor.class.getResource("/" + fileName).getPath());
-
-        content = new String(Files.readAllBytes(this.path));
+    public FileProcessor(String filename) throws IOException {
+        content = new String(getClass().getClassLoader().getResourceAsStream(filename).readAllBytes());
         content = format(content);
     }
 

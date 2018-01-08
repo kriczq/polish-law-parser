@@ -17,41 +17,12 @@ public class Content {
         this.type = type;
     }
 
-    public String getText() {
-        return text;
-    }
-
     public void addChild(Content child) {
         children.put(child.getIdentifier(), child);
     }
 
     public Content getChild(String identifier) {
         return children.get(identifier);
-    }
-
-    public List<Content> getList(ContentType type) {
-        if (getType() != type) {
-            List<Content> l = new ArrayList<>();
-            getChildren().forEach((u, v) -> l.addAll(v.getList(type)));
-            return l;
-        } else {
-            return Arrays.asList(this);
-        }
-    }
-
-    public Content find(String identifier, ContentType type) {
-        if (this.identifier != null && this.identifier.equals(identifier) && this.type == type)
-            return this;
-
-        for (Content x : children.values())
-        {
-            //System.out.println(x.getIdentifier());
-            Content result = x.find(identifier, type);
-            if (result != null)
-                return result;
-        }
-
-        return null;
     }
 
     public Map<String, Content> getChildren() {
@@ -82,17 +53,32 @@ public class Content {
         return children.size() > 0;
     }
 
-    public void showChildren() {
-        if (children.isEmpty()) {
-            System.out.println("puste");
-            return;
+    public List<Content> getList(ContentType type) {
+        if (getType() != type) {
+            List<Content> l = new ArrayList<>();
+            getChildren().forEach((u, v) -> l.addAll(v.getList(type)));
+            return l;
+        } else {
+            return Arrays.asList(this);
+        }
+    }
+
+    public Content find(String identifier, ContentType type) {
+        if (this.identifier != null && this.identifier.equals(identifier) && this.type == type)
+            return this;
+
+        for (Content x : children.values())
+        {
+            Content result = x.find(identifier, type);
+            if (result != null)
+                return result;
         }
 
-        children.forEach( (u, v) -> System.out.println(u + "\n---------------"));
+        return null;
     }
 
     @Override
     public String toString() {
-        return getText();
+        return text;
     }
 }

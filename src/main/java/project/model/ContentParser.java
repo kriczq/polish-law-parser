@@ -16,7 +16,7 @@ public class ContentParser {
         if (type.getPattern() == null)
             return;
 
-        Matcher m = Pattern.compile(type.getPattern()).matcher(node.getText());
+        Matcher m = Pattern.compile(type.getPattern()).matcher(node.toString());
 
         while (m.find()) {
             Content child = new Content(m.group(1), type);
