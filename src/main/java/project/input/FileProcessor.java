@@ -9,8 +9,12 @@ public class FileProcessor {
     private String content;
 
     public FileProcessor(String filename) throws IOException {
-        content = new String(getClass().getClassLoader().getResourceAsStream(filename).readAllBytes());
-        content = format(content);
+        try {
+            content = new String(getClass().getClassLoader().getResourceAsStream(filename).readAllBytes());
+            content = format(content);
+        } catch (NullPointerException ex) {
+            throw new IOException("file not found");
+        }
     }
 
      private String format(String content) {

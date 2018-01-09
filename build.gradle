@@ -26,6 +26,8 @@ jar {
                 'Main-Class': 'project.Application'
         )
     }
+
+    archiveName = "parser.jar"
 }
 
 dependencies {

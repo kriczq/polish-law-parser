@@ -15,7 +15,10 @@ public class Application {
             InputParser input = new InputParser(args);
 
             if (input.getMode() == InputParser.Mode.Help) {
-                System.out.println("usage: java -jar parser.jar [filename] [-t] [parameters]");
+                System.out.println("usage: java -jar parser.jar [filename] [-t] [parameters]\n" +
+                "parameters can be: dzial ... rozdzial ... art ... ust ... pkt ... lit ...\n" +
+                "use -t if you wanna show tables of contents but after can be only dzial ...\n" +
+                        "ex. java -jar parser.jar uokik.txt art 113f ust 2 pkt 1");
                 return;
             }
 
@@ -37,14 +40,11 @@ public class Application {
                 case Element:
                     Printer printer1 = new Printer(parser.getRoot());
                     printer1.printElement(input.getId());
-                    break;
             }
 
         } catch (IOException ex) {
-            System.out.println(ex.toString());
+            System.out.println(ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            System.out.println(ex.toString());
-        } catch (NullPointerException ex) {
             System.out.println(ex.getMessage());
         }
     }

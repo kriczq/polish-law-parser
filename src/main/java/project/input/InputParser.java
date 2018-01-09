@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class InputParser {
     public enum Mode {Table, Range, Element, Help}
 
-    private String input;
+    private String input = "";
     private String filename;
     private Mode mode;
     private ArticleRange range;
@@ -59,12 +59,16 @@ public class InputParser {
         if (args.length == 0) {
             mode = Mode.Help;
             return;
+        } else {
+            filename = args[0];
+
+            if (args.length > 1)
+                input = String.join(" ", Arrays.copyOfRange(args, args[1].equals("-t") ? 2 : 1, args.length));
+            else {
+                mode = Mode.Element;
+                return;
+            }
         }
-
-        filename = args[0];
-
-        // todo if just file name
-        input = String.join(" ", Arrays.copyOfRange(args, args[1].equals("-t") ? 2 : 1, args.length));
 
         Matcher m;
 
@@ -78,11 +82,11 @@ public class InputParser {
             else if (!input.isEmpty())
                 throw new IllegalArgumentException("only \"dzial\" can be in table mode");
 
-        } else if ((m = Pattern.compile("art\\.? ([0-9a-z]+)-([0-9a-z]+)").matcher(input)).find()) {
+        } else if ((m = Pattern.compile("(?i)^art\\.? ([0-9a-z]+)-([0-9a-z]+)$").matcher(input)).find()) {
             mode = Mode.Range;
 
             range = new ArticleRange(m.group(1), m.group(2));
-        } else if ((m = Pattern.compile("(?i)(?:dzial ([A-Z]+))?\\s*(?:rozdz ([0-9A-Z]+))?\\s*(?:art\\.? [0-9a-z]+\\s*(?:ust\\.? [0-9a-z]+\\s*(?:pkt\\.? [0-9a-z]+\\s*(?:lit\\.? [0-9a-z]+)?)?)?)?").matcher(this.input)).find()) {
+        } else if ((m = Pattern.compile("(?i)^(?:dzial ([A-Z]+))?\\s*(?:rozdz ([0-9A-Z]+))?\\s*(?:art\\.? [0-9a-z]+\\s*(?:ust\\.? [0-9a-z]+\\s*(?:pkt\\.? [0-9a-z]+\\s*(?:lit\\.? [0-9a-z]+)?)?)?)?$").matcher(this.input)).find()) {
             mode = Mode.Element;
 
             match("dzial ([A-Z]+)").ifPresent(x -> id.put(ContentType.Dział, x));
