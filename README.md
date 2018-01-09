@@ -1,5 +1,7 @@
-# polish-law-parser
+# Polish Law Parser
 
-gradle build\n
-cd ./build/libs/\n
+```bash
+gradle build
+cd ./build/libs/
 java -jar parser.jar
+```
