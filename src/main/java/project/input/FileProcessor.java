@@ -18,10 +18,6 @@ public class FileProcessor {
                  replaceAll("©Kancelaria Sejmu.*\n\\d{4}-\\d{2}-\\d{2}\n", "");
     }
 
-    public void show() {
-        System.out.println(content);
-    }
-
     public String getContent() {
         return content;
     }
